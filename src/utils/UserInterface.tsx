@@ -27,6 +27,8 @@ export interface User {
     LoginApi:(newUser:User)=>Promise<User|undefined>;
     editUserApi:(newUser:User ,_id:number)=>Promise<void>;
     logout: () => void;
+    isLoading:boolean,
+    setIsloaging:(value:boolean)=>void;
    
   }
 

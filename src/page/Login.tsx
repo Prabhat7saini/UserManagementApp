@@ -11,8 +11,8 @@ import  {delayPromise} from "../utils/Delay"
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-const [loading,setLoading]=useState<boolean>(false);
-  const { LoginApi} = useContext(userContext)
+
+  const { LoginApi,isLoading,setIsloaging} = useContext(userContext)
   const roleOptions = ['admin', 'user'];
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(LoginSchema),
@@ -29,7 +29,7 @@ const [loading,setLoading]=useState<boolean>(false);
     
     
     try {
-      setLoading(true);
+      setIsloaging(true);
       await delayPromise();
      const currentUser= await LoginApi(data);
       if ( currentUser?.roleType === 'admin') {
@@ -40,18 +40,18 @@ const [loading,setLoading]=useState<boolean>(false);
       }else{
         console.log(`not match any role`)
       }
-      setLoading(false);
+      setIsloaging(false);
     } catch (error) {
       if(error instanceof Error){
 
         console.  log(error.message)
         setError(error.message);
-        setLoading(false);
+        setIsloaging(false);
       }
     }
 
   };
-  if (loading) {
+  if (isLoading) {
     console.log("loading....")
     return (<div>Loading.........</div>)
   }

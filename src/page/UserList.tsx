@@ -5,7 +5,7 @@ import UserListed from "../components/UserListed";
 import { User } from "../utils/UserInterface"; 
 
 const UserList = () => {
-  const { Users } = useContext(userContext);
+  const { Users ,isLoading} = useContext(userContext);
 
   if (Users.length <= 0) {
     return (
@@ -18,7 +18,10 @@ const UserList = () => {
       </Container>
     );
   }
-
+  if (isLoading) {
+    console.log("loading....")
+    return (<div>Loading.........</div>)
+  }
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Grid container spacing={4} justifyContent="center">

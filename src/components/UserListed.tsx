@@ -3,25 +3,38 @@ import { Box, Button, Card, CardContent, Typography, TextField } from '@mui/mate
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {User} from "../utils/UserInterface"
 import { userContext } from '../context/UserContext';
+import { delayPromise } from '../utils/Delay';
 
 
 
-const UserListed: React.FC<User> = ({ id, name, address, phoneNumber }) => {
+const UserListed: React.FC<User> = ({ id, name, address, phoneNumber,username,roleType,password, }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<User>();
   const [isEditing, setIsEditing] = useState(false);
-const  {editUserApi}=useContext(userContext)
+const  {editUserApi,isLoading,setIsloaging}=useContext(userContext)
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit: SubmitHandler<User> = (data) => {
-    
-    data.id=id;
-    editUserApi(data,id);
-    console.log(data,"updated data");
-    toggleEdit();
-  };
+  const onSubmit: SubmitHandler<User> = async(data) => {
 
+    try {
+      setIsloaging(true);
+      await delayPromise();
+      data.id=id;
+      data.username=username,
+      data.roleType=roleType,
+      data.password=password;/*  */
+  
+      editUserApi(data,id);
+      console.log(data,"1114");
+      setIsloaging(false);
+      toggleEdit();
+    } catch (error) {
+      setIsEditing(false);
+    }
+
+  };
+  
   return (
     <Card variant="outlined" sx={{ mb: 2 }}>
       <CardContent>

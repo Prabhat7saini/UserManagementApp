@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import localforage from 'localforage';
 import { User, UserContextValue, UserProviderProps } from '../utils/UserInterface';
-// import { Dispatch, SetStateAction } from 'react';
+
 
 export const userContext = createContext<UserContextValue>({
   Users: [],
@@ -11,9 +11,12 @@ export const userContext = createContext<UserContextValue>({
   currentUser: null,
   editUserApi: async () => { throw new Error('editUserApi is not initialized'); },
   logout: () => { },
+  isLoading:false,
+  setIsloaging:async ()=>{throw new Error(`Loading error`)}
 });
 
 const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
+  // const {id}=useParams();
   const [userLocal, setUserLocal] = useState<User[]>([]);
   const [adminLocal, setAdminLocal] = useState<User[]>([]);
   // const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -21,7 +24,7 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedUser = localStorage.getItem('currentUser');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-
+const [isLoading,setIsloaging]=useState<boolean>(false);
   useEffect(() => {
     const loadUserData = async () => {
       try {
@@ -43,11 +46,15 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
         const existingUser = userLocal.find((user) => user.username === newUser.username);
         console.log(existingUser, "inside RegiserApi")
         if (existingUser) {
+          // console.log(11234567)
           throw new Error('Users are not allowed to register as an admin');
         }
         if (adminLocal.length > 0) {
+          console.log("more then 1 admin")
           throw new Error('Cannot register more than one admin.');
+          
         } else {
+          console.log(`pppppppppp`)
           newUser.id = 1;
           await localforage.setItem('adminLocal', [newUser]);
           setAdminLocal([newUser]);
@@ -112,6 +119,7 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
         if (existingUser) {
           setCurrentUser(existingUser);
           localStorage.setItem('currentUser', JSON.stringify(existingUser));
+          // storedUser=existingUser
         }
         return existingUser;
       }
@@ -125,11 +133,13 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
   const editUserApi = async (updatedUser: User, _id: number) => {
     try {
 
-      if (!currentUser || (currentUser.roleType !== 'admin')) {
+      if (currentUser && (currentUser?.id!==_id && (currentUser.roleType !== 'admin'))) {
+        console.log(currentUser.id,_id,currentUser.roleType)
         throw new Error('Unauthorized: Only admins can edit any user role.');
       }
 
       if (updatedUser.roleType === 'admin') {
+        console.log(`admin update karne aya`)
         const existingUserIndex = adminLocal.findIndex((user) => user.id === _id);
         if (existingUserIndex === -1) {
           throw new Error('Admin user not found');
@@ -138,6 +148,7 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
         await localforage.setItem('adminLocal', adminLocal);
         setAdminLocal([...adminLocal]);
       } else {
+        console.log(`user update krne aya`)
         const existingUserIndex = userLocal.findIndex((user) => user.id === _id);
         if (existingUserIndex === -1) {
           throw new Error('User not found');
@@ -145,6 +156,14 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
         userLocal[existingUserIndex] = updatedUser;
         await localforage.setItem('userLocal', userLocal);
         setUserLocal([...userLocal]);
+        if(currentUser?.roleType==='user'){
+          setCurrentUser(updatedUser);
+
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        }
+        // localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        // storedUser=updatedUser;
+        // set
       }
     } catch (error) {
       console.error('Error editing user:', error);
@@ -154,7 +173,7 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
   const logout = () => {
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
-    // Additional cleanup or reset logic if needed
+    
   };
   const contextValue: UserContextValue = {
     Users: userLocal,
@@ -164,6 +183,8 @@ const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
     currentUser,
     editUserApi,
     logout,
+    isLoading,
+    setIsloaging
   };
 
   return (
