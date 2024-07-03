@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import localforage from 'localforage';
 import { User, UserContextValue, UserProviderProps } from '../utils/UserInterface';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 export const userContext = createContext<UserContextValue>({
   Users: [],

@@ -4,7 +4,7 @@ import Register from '../page/Register'
 import Login from '../page/Login'
 import AdminRoute from  "./AdminRoute"
 import UserList from '../page/UserList'
-import UserRoute from "./UserRoute"
+// import UserRoute from "./UserRoute"
 import Profile from '../page/Profile'
 
 const GlobalRoutes = () => {

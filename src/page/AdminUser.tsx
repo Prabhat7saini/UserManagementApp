@@ -1,22 +1,19 @@
 import React from 'react'
-import { useContext ,useState} from 'react';
+import { useContext } from 'react';
 import { userContext } from '../context/UserContext';
-import { Container,Paper,Typography ,TextField,Grid,Box,Button} from '@mui/material';
-import { useForm, SubmitHandler, } from 'react-hook-form';
-import { User } from '../utils/UserInterface';
+import { Container,Paper,Typography ,Grid} from '@mui/material';
+// import { useForm, } from 'react-hook-form';
+// import { User } from '../utils/UserInterface'
 interface urlid{
 intid:number
 
 }
 const AdminUser:React.FC<urlid>= ({intid}) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<User>();
+    // const { regis, formState: {  } } = useForm<User>();
     const {Users}=useContext(userContext)
     const UserAdmin=Users.find((u)=>u.id=intid);
-    const [isEditing, setIsEditing] = useState(false);
-    const toggleEdit = () => {
-        setIsEditing(!isEditing);
-      };
-  
+    // const [isEditing, setIsEditing] = useState(false);
+
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
     <Paper elevation={3} sx={{ p: 2 }}>
