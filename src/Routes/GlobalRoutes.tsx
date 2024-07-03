@@ -1,4 +1,4 @@
-import { BrowserRouter ,Routes,Route} from 'react-router-dom'
+import { HashRouter ,Routes,Route} from 'react-router-dom'
 import Header from '../components/Header'
 import Register from '../page/Register'
 import Login from '../page/Login'
@@ -9,7 +9,7 @@ import Profile from '../page/Profile'
 
 const GlobalRoutes = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Header></Header>
         <Routes>
           <Route path="/" element={<Register />} />
@@ -31,7 +31,7 @@ const GlobalRoutes = () => {
             }/>
         </Routes>
 
-      </BrowserRouter>
+      </HashRouter>
   )
 }
 
