@@ -1,12 +1,12 @@
-
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { userContext } from '../context/UserContext';
+import ButtonC from './common/ButtonC';
 
 const CenteredText = () => {
   const { logout, currentUser } = useContext(userContext);
-  const handleLogout = () => {
 
+  const handleLogout = () => {
     logout();
     console.log('Logging out...');
   };
@@ -23,9 +23,7 @@ const CenteredText = () => {
       }}
     >
       <Typography variant="h4">User management app</Typography>
-      {currentUser && <Button variant="contained" color="primary" onClick={handleLogout}>
-        Logout
-      </Button>}
+      {currentUser && <ButtonC text='Logout' onClick={handleLogout} />}
     </Box>
   );
 };

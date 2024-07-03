@@ -142,7 +142,7 @@ const Register: React.FC = () => {
             {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
-              Next
+              Register
             </Button>
             
             {/* Use NavLink from 'react-router-dom' for navigation */}

@@ -1,44 +1,47 @@
 import React, { useContext, useState } from 'react';
 import { Box, Button, Card, CardContent, Typography, TextField } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import {User} from "../utils/UserInterface"
+import { User } from "../utils/UserInterface"
 import { userContext } from '../context/UserContext';
 import { delayPromise } from '../utils/Delay';
 
 
 
-const UserListed: React.FC<User> = ({ id, name, address, phoneNumber,username,roleType,password, }) => {
+const UserListed: React.FC<User> = ({ id, name, address, phoneNumber, username, roleType, password, }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<User>();
   const [isEditing, setIsEditing] = useState(false);
-const  {editUserApi,isLoading,setIsloaging}=useContext(userContext)
+  const { editUserApi, isLoading, setIsloaging } = useContext(userContext)
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit: SubmitHandler<User> = async(data) => {
+  const onSubmit: SubmitHandler<User> = async (data) => {
 
     try {
       setIsloaging(true);
       await delayPromise();
-      data.id=id;
-      data.username=username,
-      data.roleType=roleType,
-      data.password=password;/*  */
-  
-      editUserApi(data,id);
-      console.log(data,"1114");
+      data.id = id;
+      data.username = username,
+        data.roleType = roleType,
+        data.password = password;/*  */
+
+      editUserApi(data, id);
+      console.log(data, "1114");
       setIsloaging(false);
       toggleEdit();
     } catch (error) {
-      setIsEditing(false);
+      setIsloaging(false);
     }
 
   };
-  
+  if (isLoading) {
+    console.log("loading....")
+    return (<div>Loading.........</div>)
+  }
   return (
     <Card variant="outlined" sx={{ mb: 2 }}>
       <CardContent>
-        <Typography variant="h6">User Details : Id - { id}</Typography>
+        <Typography variant="h6">User Details : Id - {id}</Typography>
         {isEditing ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ mt: 2 }}>
@@ -83,6 +86,8 @@ const  {editUserApi,isLoading,setIsloaging}=useContext(userContext)
             <Typography variant="subtitle1">Name: {name}</Typography>
             <Typography variant="body1">Address: {address}</Typography>
             <Typography variant="body1">Phone Number: {phoneNumber}</Typography>
+            <Typography variant="body1">roleType: {roleType}</Typography>
+            <Typography variant="body1">UserName: {username}</Typography>
             <Box sx={{ mt: 2 }}>
               <Button variant="contained" color="primary" onClick={toggleEdit}>
                 Edit Details

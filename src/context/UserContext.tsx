@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import localforage from 'localforage';
 import { User, UserContextValue, UserProviderProps } from '../utils/UserInterface';
-
+import { useNavigate } from 'react-router-dom';
 
 export const userContext = createContext<UserContextValue>({
   Users: [],
@@ -16,7 +16,7 @@ export const userContext = createContext<UserContextValue>({
 });
 
 const UserContextProvider: React.FC<UserProviderProps> = ({ children }) => {
-  // const {id}=useParams();
+// const navigate=useNavigate();
   const [userLocal, setUserLocal] = useState<User[]>([]);
   const [adminLocal, setAdminLocal] = useState<User[]>([]);
   // const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -55,7 +55,7 @@ const [isLoading,setIsloaging]=useState<boolean>(false);
           
         } else {
           console.log(`pppppppppp`)
-          newUser.id = 1;
+          newUser.id = 0;
           await localforage.setItem('adminLocal', [newUser]);
           setAdminLocal([newUser]);
         }
@@ -170,9 +170,11 @@ const [isLoading,setIsloaging]=useState<boolean>(false);
       throw error;
     }
   };
+  // const navigate=useNavigate()
   const logout = () => {
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
+    // navigate(`/login`);
     
   };
   const contextValue: UserContextValue = {

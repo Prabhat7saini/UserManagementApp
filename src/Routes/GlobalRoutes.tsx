@@ -21,11 +21,11 @@ const GlobalRoutes = () => {
             
             }/>
           <Route path="/profile/:id" element={
-            <UserRoute>
+            // <UserRoute>
 
             
             <Profile/>
-            </UserRoute>
+            // </UserRoute>
             
             
             }/>
