@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container, Button, FormControl, InputLabel, Select, MenuItem, dividerClasses } from '@mui/material';
+import { Container, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterSchema } from '../validactionSchema/UserRoleSChema';
 import { userContext } from '../context/UserContext';

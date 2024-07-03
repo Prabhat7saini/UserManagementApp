@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import { userContext } from "../context/UserContext";
 import { Container, Grid, Typography } from "@mui/material";
 import UserListed from "../components/UserListed"; 
